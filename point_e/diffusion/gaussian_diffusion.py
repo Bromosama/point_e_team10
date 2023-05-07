@@ -282,7 +282,9 @@ class GaussianDiffusion:
 
         B, C = x.shape[:2]
         assert t.shape == (B,)
+        #We need the latents (model_output) and the attention map here (TODO)
         model_output = model(x, t, **model_kwargs)
+        #Here they already prepare for potential extra outputs.
         if isinstance(model_output, tuple):
             model_output, extra = model_output
         else:

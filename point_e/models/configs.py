@@ -121,6 +121,7 @@ def model_from_config(config: Dict[str, Any], device: torch.device) -> nn.Module
         return PointDiffusionTransformer(device=device, dtype=torch.float32, **config)
     elif name == "CLIPImagePointDiffusionTransformer":
         return CLIPImagePointDiffusionTransformer(device=device, dtype=torch.float32, **config)
+    #we are calling this with 400m name
     elif name == "CLIPImageGridPointDiffusionTransformer":
         return CLIPImageGridPointDiffusionTransformer(device=device, dtype=torch.float32, **config)
     elif name == "UpsamplePointDiffusionTransformer":

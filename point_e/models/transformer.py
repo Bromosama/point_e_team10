@@ -45,7 +45,7 @@ class MultiheadAttention(nn.Module):
         x = self.c_qkv(x)
         x = checkpoint(self.attention, (x,), (), True)
         x = self.c_proj(x)
-        return x
+        return x 
 
 
 class MLP(nn.Module):
@@ -81,6 +81,16 @@ class QKVMultiheadAttention(nn.Module):
         )  # More stable with f16 than dividing afterwards
         wdtype = weight.dtype
         weight = torch.softmax(weight.float(), dim=-1).type(wdtype)
+        '''
+        #In layout control they multiply the q and k which are [batch, target, heads] and [batch, source, heads] then sum it to
+        #[batch, target, source] in their einsum. But here we multiply q and k which are [batch, target, heads, c?] and [batch, source, heads, c?]
+        and einsum it to [batch, heads, target, source]. So they get rid of c. And c is representing the hidden size.
+        THen weight is of [batch, heads, target, source] (e.g. [2, 8, 1281, 1281]). The difference already is that the target and source
+        dimensions are the same compared to layout control where the 77 is from the context and 4096 from the image embedding. (indicating this is self attention?)
+
+        But then they multiply weight and value ([2, 8, 1281, 1281] and [2, 1281, 8, 64]) to the shape [2,1281,8,64]) which they reshape
+        into [2, 1281, 512]. So they merge the last two dimensions. The heads with the hidden size of each head.
+        '''
         return torch.einsum("bhts,bshc->bthc", weight, v).reshape(bs, n_ctx, -1)
 
 
@@ -110,6 +120,7 @@ class ResidualAttentionBlock(nn.Module):
         self.ln_2 = nn.LayerNorm(width, device=device, dtype=dtype)
 
     def forward(self, x: torch.Tensor):
+        #we get the attention map from the multiheadedAttention class.
         x = x + self.attn(self.ln_1(x))
         x = x + self.mlp(self.ln_2(x))
         return x
@@ -133,6 +144,9 @@ class Transformer(nn.Module):
         self.layers = layers
         init_scale = init_scale * math.sqrt(1.0 / width)
         self.resblocks = nn.ModuleList(
+        #Consists of residualAttentionBlock
+            #Which calls Multiheaded attention and the MLP
+                #The multiheaded attention calls some linear -> QKVattention -> another linear
             [
                 ResidualAttentionBlock(
                     device=device,
@@ -205,6 +219,7 @@ class PointDiffusionTransformer(nn.Module):
     def _forward_with_cond(
         self, x: torch.Tensor, cond_as_token: List[Tuple[torch.Tensor, bool]]
     ) -> torch.Tensor:
+        #Here we concatenate the time embedding and the clip embedding to the point_cloud representation. 
         h = self.input_proj(x.permute(0, 2, 1))  # NCL -> NLC
         for emb, as_token in cond_as_token:
             if not as_token:
@@ -216,8 +231,10 @@ class PointDiffusionTransformer(nn.Module):
         ]
         if len(extra_tokens):
             h = torch.cat(extra_tokens + [h], dim=1)
-
+        #Here we call the transformer as a whole, after doing some linear pre processing.
+        #And some linear post-processing afterwards.
         h = self.ln_pre(h)
+      
         h = self.backbone(h)
         h = self.ln_post(h)
         if len(extra_tokens):
