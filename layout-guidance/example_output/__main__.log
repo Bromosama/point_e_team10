@@ -1,0 +1,118 @@
+2023-05-04 20:20:51,263 - __main__ - INFO - {'general': {'save_path': './example_output', 'model_path': 'runwayml/stable-diffusion-v1-5', 'unet_config': './conf/unet/config.json'}, 'inference': {'loss_scale': 30, 'batch_size': 1, 'loss_threshold': 0.2, 'max_iter': 5, 'max_index_step': 10, 'timesteps': 51, 'classifier_free_guidance': 7.5, 'rand_seed': 445}, 'noise_schedule': {'beta_start': 0.00085, 'beta_end': 0.012, 'beta_schedule': 'scaled_linear', 'num_train_timesteps': 1000}}
+2023-05-04 20:20:51,264 - __main__ - INFO - save config to ./example_output/config.yaml
+2023-05-04 20:20:51,272 - __main__ - INFO - Inference
+2023-05-04 20:20:51,272 - __main__ - INFO - Prompt: A chair located next to a fancy desk.
+2023-05-04 20:20:51,272 - __main__ - INFO - Phrases: green turtle; fancy tree
+2023-05-04 20:20:51,272 - __main__ - INFO - Conver Phrases to Object Positions
+2023-05-04 20:21:35,709 - __main__ - INFO - {'general': {'save_path': './example_output', 'model_path': 'runwayml/stable-diffusion-v1-5', 'unet_config': './conf/unet/config.json'}, 'inference': {'loss_scale': 30, 'batch_size': 1, 'loss_threshold': 0.2, 'max_iter': 5, 'max_index_step': 10, 'timesteps': 51, 'classifier_free_guidance': 7.5, 'rand_seed': 445}, 'noise_schedule': {'beta_start': 0.00085, 'beta_end': 0.012, 'beta_schedule': 'scaled_linear', 'num_train_timesteps': 1000}}
+2023-05-04 20:21:35,710 - __main__ - INFO - save config to ./example_output/config.yaml
+2023-05-04 20:21:35,714 - __main__ - INFO - Inference
+2023-05-04 20:21:35,715 - __main__ - INFO - Prompt: A chair located next to a fancy desk.
+2023-05-04 20:21:35,715 - __main__ - INFO - Phrases: chair; fancy desk
+2023-05-04 20:21:35,715 - __main__ - INFO - Conver Phrases to Object Positions
+2023-05-04 20:21:58,922 - __main__ - INFO - Decode Image...
+2023-05-04 20:21:59,097 - __main__ - INFO - save example image to ./example_output/example_0.png
+2023-05-04 20:26:53,048 - __main__ - INFO - {'general': {'save_path': './example_output', 'model_path': 'runwayml/stable-diffusion-v1-5', 'unet_config': './conf/unet/config.json'}, 'inference': {'loss_scale': 30, 'batch_size': 1, 'loss_threshold': 0.2, 'max_iter': 5, 'max_index_step': 10, 'timesteps': 51, 'classifier_free_guidance': 7.5, 'rand_seed': 445}, 'noise_schedule': {'beta_start': 0.00085, 'beta_end': 0.012, 'beta_schedule': 'scaled_linear', 'num_train_timesteps': 1000}}
+2023-05-04 20:26:53,050 - __main__ - INFO - save config to ./example_output/config.yaml
+2023-05-04 20:26:53,059 - __main__ - INFO - Inference
+2023-05-04 20:26:53,059 - __main__ - INFO - Prompt: A chair located next to a fancy desk.
+2023-05-04 20:26:53,061 - __main__ - INFO - Phrases: chair; fancy desk
+2023-05-04 20:26:53,061 - __main__ - INFO - Conver Phrases to Object Positions
+2023-05-04 20:36:45,327 - __main__ - INFO - {'general': {'save_path': './example_output', 'model_path': 'runwayml/stable-diffusion-v1-5', 'unet_config': './conf/unet/config.json'}, 'inference': {'loss_scale': 30, 'batch_size': 1, 'loss_threshold': 0.2, 'max_iter': 5, 'max_index_step': 10, 'timesteps': 51, 'classifier_free_guidance': 7.5, 'rand_seed': 445}, 'noise_schedule': {'beta_start': 0.00085, 'beta_end': 0.012, 'beta_schedule': 'scaled_linear', 'num_train_timesteps': 1000}}
+2023-05-04 20:36:45,329 - __main__ - INFO - save config to ./example_output/config.yaml
+2023-05-04 20:36:45,337 - __main__ - INFO - Inference
+2023-05-04 20:36:45,338 - __main__ - INFO - Prompt: A chair located next to a fancy desk.
+2023-05-04 20:36:45,338 - __main__ - INFO - Phrases: chair; fancy desk
+2023-05-04 20:36:45,339 - __main__ - INFO - Conver Phrases to Object Positions
+2023-05-05 15:57:38,628 - __main__ - INFO - {'general': {'save_path': './example_output', 'model_path': 'runwayml/stable-diffusion-v1-5', 'unet_config': './conf/unet/config.json'}, 'inference': {'loss_scale': 30, 'batch_size': 1, 'loss_threshold': 0.2, 'max_iter': 5, 'max_index_step': 10, 'timesteps': 51, 'classifier_free_guidance': 7.5, 'rand_seed': 445}, 'noise_schedule': {'beta_start': 0.00085, 'beta_end': 0.012, 'beta_schedule': 'scaled_linear', 'num_train_timesteps': 1000}}
+2023-05-05 15:57:38,629 - __main__ - INFO - save config to ./example_output/config.yaml
+2023-05-05 15:57:38,633 - __main__ - INFO - Inference
+2023-05-05 15:57:38,633 - __main__ - INFO - Prompt: A hello kitty toy is playing with a purple ball.
+2023-05-05 15:57:38,634 - __main__ - INFO - Phrases: hello kitty; ball
+2023-05-05 15:57:38,634 - __main__ - INFO - Conver Phrases to Object Positions
+2023-05-05 15:58:02,710 - __main__ - INFO - Decode Image...
+2023-05-05 15:58:02,885 - __main__ - INFO - save example image to ./example_output/example_0.png
+2023-05-05 16:03:58,130 - __main__ - INFO - {'general': {'save_path': './example_output', 'model_path': 'runwayml/stable-diffusion-v1-5', 'unet_config': './conf/unet/config.json'}, 'inference': {'loss_scale': 30, 'batch_size': 1, 'loss_threshold': 0.2, 'max_iter': 5, 'max_index_step': 10, 'timesteps': 51, 'classifier_free_guidance': 7.5, 'rand_seed': 445}, 'noise_schedule': {'beta_start': 0.00085, 'beta_end': 0.012, 'beta_schedule': 'scaled_linear', 'num_train_timesteps': 1000}}
+2023-05-05 16:03:58,133 - __main__ - INFO - save config to ./example_output/config.yaml
+2023-05-05 16:03:58,142 - __main__ - INFO - Inference
+2023-05-05 16:03:58,142 - __main__ - INFO - Prompt: A hello kitty toy is playing with a purple ball.
+2023-05-05 16:03:58,142 - __main__ - INFO - Phrases: hello kitty; ball
+2023-05-05 16:03:58,143 - __main__ - INFO - Conver Phrases to Object Positions
+2023-05-05 16:07:49,492 - __main__ - INFO - {'general': {'save_path': './example_output', 'model_path': 'runwayml/stable-diffusion-v1-5', 'unet_config': './conf/unet/config.json'}, 'inference': {'loss_scale': 30, 'batch_size': 1, 'loss_threshold': 0.2, 'max_iter': 5, 'max_index_step': 10, 'timesteps': 51, 'classifier_free_guidance': 7.5, 'rand_seed': 445}, 'noise_schedule': {'beta_start': 0.00085, 'beta_end': 0.012, 'beta_schedule': 'scaled_linear', 'num_train_timesteps': 1000}}
+2023-05-05 16:07:49,493 - __main__ - INFO - save config to ./example_output/config.yaml
+2023-05-05 16:07:49,503 - __main__ - INFO - Inference
+2023-05-05 16:07:49,503 - __main__ - INFO - Prompt: A hello kitty toy is playing with a purple ball.
+2023-05-05 16:07:49,504 - __main__ - INFO - Phrases: hello kitty; ball
+2023-05-05 16:07:49,505 - __main__ - INFO - Conver Phrases to Object Positions
+2023-05-05 16:19:20,040 - __main__ - INFO - {'general': {'save_path': './example_output', 'model_path': 'runwayml/stable-diffusion-v1-5', 'unet_config': './conf/unet/config.json'}, 'inference': {'loss_scale': 30, 'batch_size': 1, 'loss_threshold': 0.2, 'max_iter': 5, 'max_index_step': 10, 'timesteps': 51, 'classifier_free_guidance': 7.5, 'rand_seed': 445}, 'noise_schedule': {'beta_start': 0.00085, 'beta_end': 0.012, 'beta_schedule': 'scaled_linear', 'num_train_timesteps': 1000}}
+2023-05-05 16:19:20,042 - __main__ - INFO - save config to ./example_output/config.yaml
+2023-05-05 16:19:20,050 - __main__ - INFO - Inference
+2023-05-05 16:19:20,051 - __main__ - INFO - Prompt: A hello kitty toy is playing with a purple ball.
+2023-05-05 16:19:20,051 - __main__ - INFO - Phrases: hello kitty; ball
+2023-05-05 16:19:20,052 - __main__ - INFO - Conver Phrases to Object Positions
+2023-05-05 16:36:28,997 - __main__ - INFO - {'general': {'save_path': './example_output', 'model_path': 'runwayml/stable-diffusion-v1-5', 'unet_config': './conf/unet/config.json'}, 'inference': {'loss_scale': 30, 'batch_size': 1, 'loss_threshold': 0.2, 'max_iter': 5, 'max_index_step': 10, 'timesteps': 51, 'classifier_free_guidance': 7.5, 'rand_seed': 445}, 'noise_schedule': {'beta_start': 0.00085, 'beta_end': 0.012, 'beta_schedule': 'scaled_linear', 'num_train_timesteps': 1000}}
+2023-05-05 16:36:28,999 - __main__ - INFO - save config to ./example_output/config.yaml
+2023-05-05 16:36:29,007 - __main__ - INFO - Inference
+2023-05-05 16:36:29,007 - __main__ - INFO - Prompt: A hello kitty toy is playing with a purple ball.
+2023-05-05 16:36:29,008 - __main__ - INFO - Phrases: hello kitty; ball
+2023-05-05 16:36:29,009 - __main__ - INFO - Conver Phrases to Object Positions
+2023-05-05 16:37:32,962 - __main__ - INFO - {'general': {'save_path': './example_output', 'model_path': 'runwayml/stable-diffusion-v1-5', 'unet_config': './conf/unet/config.json'}, 'inference': {'loss_scale': 30, 'batch_size': 1, 'loss_threshold': 0.2, 'max_iter': 5, 'max_index_step': 10, 'timesteps': 51, 'classifier_free_guidance': 7.5, 'rand_seed': 445}, 'noise_schedule': {'beta_start': 0.00085, 'beta_end': 0.012, 'beta_schedule': 'scaled_linear', 'num_train_timesteps': 1000}}
+2023-05-05 16:37:32,963 - __main__ - INFO - save config to ./example_output/config.yaml
+2023-05-05 16:37:32,972 - __main__ - INFO - Inference
+2023-05-05 16:37:32,972 - __main__ - INFO - Prompt: A hello kitty toy is playing with a purple ball.
+2023-05-05 16:37:32,973 - __main__ - INFO - Phrases: hello kitty; ball
+2023-05-05 16:37:32,973 - __main__ - INFO - Conver Phrases to Object Positions
+2023-05-05 16:48:39,601 - __main__ - INFO - {'general': {'save_path': './example_output', 'model_path': 'runwayml/stable-diffusion-v1-5', 'unet_config': './conf/unet/config.json'}, 'inference': {'loss_scale': 30, 'batch_size': 1, 'loss_threshold': 0.2, 'max_iter': 5, 'max_index_step': 10, 'timesteps': 51, 'classifier_free_guidance': 7.5, 'rand_seed': 445}, 'noise_schedule': {'beta_start': 0.00085, 'beta_end': 0.012, 'beta_schedule': 'scaled_linear', 'num_train_timesteps': 1000}}
+2023-05-05 16:48:39,603 - __main__ - INFO - save config to ./example_output/config.yaml
+2023-05-05 16:48:39,613 - __main__ - INFO - Inference
+2023-05-05 16:48:39,614 - __main__ - INFO - Prompt: A hello kitty toy is playing with a purple ball.
+2023-05-05 16:48:39,614 - __main__ - INFO - Phrases: hello kitty; ball
+2023-05-05 16:48:39,615 - __main__ - INFO - Conver Phrases to Object Positions
+2023-05-05 16:53:57,167 - __main__ - INFO - {'general': {'save_path': './example_output', 'model_path': 'runwayml/stable-diffusion-v1-5', 'unet_config': './conf/unet/config.json'}, 'inference': {'loss_scale': 30, 'batch_size': 1, 'loss_threshold': 0.2, 'max_iter': 5, 'max_index_step': 10, 'timesteps': 51, 'classifier_free_guidance': 7.5, 'rand_seed': 445}, 'noise_schedule': {'beta_start': 0.00085, 'beta_end': 0.012, 'beta_schedule': 'scaled_linear', 'num_train_timesteps': 1000}}
+2023-05-05 16:53:57,169 - __main__ - INFO - save config to ./example_output/config.yaml
+2023-05-05 16:53:57,178 - __main__ - INFO - Inference
+2023-05-05 16:53:57,179 - __main__ - INFO - Prompt: A hello kitty toy is playing with a purple ball.
+2023-05-05 16:53:57,179 - __main__ - INFO - Phrases: hello kitty; ball
+2023-05-05 16:53:57,180 - __main__ - INFO - Conver Phrases to Object Positions
+2023-05-05 17:34:11,409 - __main__ - INFO - {'general': {'save_path': './example_output', 'model_path': 'runwayml/stable-diffusion-v1-5', 'unet_config': './conf/unet/config.json'}, 'inference': {'loss_scale': 30, 'batch_size': 1, 'loss_threshold': 0.2, 'max_iter': 5, 'max_index_step': 10, 'timesteps': 51, 'classifier_free_guidance': 7.5, 'rand_seed': 445}, 'noise_schedule': {'beta_start': 0.00085, 'beta_end': 0.012, 'beta_schedule': 'scaled_linear', 'num_train_timesteps': 1000}}
+2023-05-05 17:34:11,411 - __main__ - INFO - save config to ./example_output/config.yaml
+2023-05-05 17:34:11,422 - __main__ - INFO - Inference
+2023-05-05 17:34:11,423 - __main__ - INFO - Prompt: A hello kitty toy is playing with a purple ball.
+2023-05-05 17:34:11,424 - __main__ - INFO - Phrases: hello kitty; ball
+2023-05-05 17:34:11,424 - __main__ - INFO - Conver Phrases to Object Positions
+2023-05-05 17:59:34,699 - __main__ - INFO - {'general': {'save_path': './example_output', 'model_path': 'runwayml/stable-diffusion-v1-5', 'unet_config': './conf/unet/config.json'}, 'inference': {'loss_scale': 30, 'batch_size': 1, 'loss_threshold': 0.2, 'max_iter': 5, 'max_index_step': 10, 'timesteps': 51, 'classifier_free_guidance': 7.5, 'rand_seed': 445}, 'noise_schedule': {'beta_start': 0.00085, 'beta_end': 0.012, 'beta_schedule': 'scaled_linear', 'num_train_timesteps': 1000}}
+2023-05-05 17:59:34,702 - __main__ - INFO - save config to ./example_output/config.yaml
+2023-05-05 17:59:34,713 - __main__ - INFO - Inference
+2023-05-05 17:59:34,714 - __main__ - INFO - Prompt: A hello kitty toy is playing with a purple ball.
+2023-05-05 17:59:34,714 - __main__ - INFO - Phrases: hello kitty; ball
+2023-05-05 17:59:34,715 - __main__ - INFO - Conver Phrases to Object Positions
+2023-05-05 18:25:20,554 - __main__ - INFO - {'general': {'save_path': './example_output', 'model_path': 'runwayml/stable-diffusion-v1-5', 'unet_config': './conf/unet/config.json'}, 'inference': {'loss_scale': 30, 'batch_size': 1, 'loss_threshold': 0.2, 'max_iter': 5, 'max_index_step': 10, 'timesteps': 51, 'classifier_free_guidance': 7.5, 'rand_seed': 445}, 'noise_schedule': {'beta_start': 0.00085, 'beta_end': 0.012, 'beta_schedule': 'scaled_linear', 'num_train_timesteps': 1000}}
+2023-05-05 18:25:20,556 - __main__ - INFO - save config to ./example_output/config.yaml
+2023-05-05 18:25:20,565 - __main__ - INFO - Inference
+2023-05-05 18:25:20,565 - __main__ - INFO - Prompt: A hello kitty toy is playing with a purple ball.
+2023-05-05 18:25:20,565 - __main__ - INFO - Phrases: hello kitty; ball
+2023-05-05 18:25:20,566 - __main__ - INFO - Conver Phrases to Object Positions
+2023-05-05 19:21:23,666 - __main__ - INFO - {'general': {'save_path': './example_output', 'model_path': 'runwayml/stable-diffusion-v1-5', 'unet_config': './conf/unet/config.json'}, 'inference': {'loss_scale': 30, 'batch_size': 1, 'loss_threshold': 0.2, 'max_iter': 5, 'max_index_step': 10, 'timesteps': 51, 'classifier_free_guidance': 7.5, 'rand_seed': 445}, 'noise_schedule': {'beta_start': 0.00085, 'beta_end': 0.012, 'beta_schedule': 'scaled_linear', 'num_train_timesteps': 1000}}
+2023-05-05 19:21:23,668 - __main__ - INFO - save config to ./example_output/config.yaml
+2023-05-05 19:21:23,677 - __main__ - INFO - Inference
+2023-05-05 19:21:23,678 - __main__ - INFO - Prompt: A hello kitty toy is playing with a purple ball.
+2023-05-05 19:21:23,678 - __main__ - INFO - Phrases: hello kitty; ball
+2023-05-05 19:21:23,679 - __main__ - INFO - Conver Phrases to Object Positions
+2023-05-05 19:37:46,623 - __main__ - INFO - {'general': {'save_path': './example_output', 'model_path': 'runwayml/stable-diffusion-v1-5', 'unet_config': './conf/unet/config.json'}, 'inference': {'loss_scale': 30, 'batch_size': 1, 'loss_threshold': 0.2, 'max_iter': 5, 'max_index_step': 10, 'timesteps': 51, 'classifier_free_guidance': 7.5, 'rand_seed': 445}, 'noise_schedule': {'beta_start': 0.00085, 'beta_end': 0.012, 'beta_schedule': 'scaled_linear', 'num_train_timesteps': 1000}}
+2023-05-05 19:37:46,625 - __main__ - INFO - save config to ./example_output/config.yaml
+2023-05-05 19:37:46,633 - __main__ - INFO - Inference
+2023-05-05 19:37:46,633 - __main__ - INFO - Prompt: A hello kitty toy is playing with a purple ball.
+2023-05-05 19:37:46,634 - __main__ - INFO - Phrases: hello kitty; ball
+2023-05-05 19:37:46,635 - __main__ - INFO - Conver Phrases to Object Positions
+2023-05-05 19:38:48,904 - __main__ - INFO - {'general': {'save_path': './example_output', 'model_path': 'runwayml/stable-diffusion-v1-5', 'unet_config': './conf/unet/config.json'}, 'inference': {'loss_scale': 30, 'batch_size': 1, 'loss_threshold': 0.2, 'max_iter': 5, 'max_index_step': 10, 'timesteps': 51, 'classifier_free_guidance': 7.5, 'rand_seed': 445}, 'noise_schedule': {'beta_start': 0.00085, 'beta_end': 0.012, 'beta_schedule': 'scaled_linear', 'num_train_timesteps': 1000}}
+2023-05-05 19:38:48,906 - __main__ - INFO - save config to ./example_output/config.yaml
+2023-05-05 19:38:48,914 - __main__ - INFO - Inference
+2023-05-05 19:38:48,915 - __main__ - INFO - Prompt: A hello kitty toy is playing with a purple ball.
+2023-05-05 19:38:48,915 - __main__ - INFO - Phrases: hello kitty; ball
+2023-05-05 19:38:48,917 - __main__ - INFO - Conver Phrases to Object Positions
+2023-05-05 19:47:41,045 - __main__ - INFO - {'general': {'save_path': './example_output', 'model_path': 'runwayml/stable-diffusion-v1-5', 'unet_config': './conf/unet/config.json'}, 'inference': {'loss_scale': 30, 'batch_size': 1, 'loss_threshold': 0.2, 'max_iter': 5, 'max_index_step': 10, 'timesteps': 51, 'classifier_free_guidance': 7.5, 'rand_seed': 445}, 'noise_schedule': {'beta_start': 0.00085, 'beta_end': 0.012, 'beta_schedule': 'scaled_linear', 'num_train_timesteps': 1000}}
+2023-05-05 19:47:41,046 - __main__ - INFO - save config to ./example_output/config.yaml
+2023-05-05 19:47:41,055 - __main__ - INFO - Inference
+2023-05-05 19:47:41,056 - __main__ - INFO - Prompt: A hello kitty toy is playing with a purple ball.
+2023-05-05 19:47:41,057 - __main__ - INFO - Phrases: hello kitty; ball
+2023-05-05 19:47:41,059 - __main__ - INFO - Conver Phrases to Object Positions

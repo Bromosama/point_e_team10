@@ -1,0 +1,28 @@
+[2023-05-03 19:20:11,966][filelock][INFO] - Lock 22848730394096 acquired on /home/lcur1635/.cache/huggingface/diffusers/models--runwayml--stable-diffusion-v1-5/blobs/c7da0e21ba7ea50637bee26e81c220844defdf01aafca02b2c42ecdadb813de4.lock
+[2023-05-03 19:20:19,711][filelock][INFO] - Lock 22848730394096 released on /home/lcur1635/.cache/huggingface/diffusers/models--runwayml--stable-diffusion-v1-5/blobs/c7da0e21ba7ea50637bee26e81c220844defdf01aafca02b2c42ecdadb813de4.lock
+[2023-05-03 19:20:19,819][filelock][INFO] - Lock 22848730738256 acquired on /home/lcur1635/.cache/huggingface/diffusers/models--runwayml--stable-diffusion-v1-5/blobs/1a02ee8abc93e840ffbcb2d68b66ccbcb74b3ab3.lock
+[2023-05-03 19:20:19,925][filelock][INFO] - Lock 22848730738256 released on /home/lcur1635/.cache/huggingface/diffusers/models--runwayml--stable-diffusion-v1-5/blobs/1a02ee8abc93e840ffbcb2d68b66ccbcb74b3ab3.lock
+[2023-05-03 19:20:23,080][filelock][INFO] - Lock 22848730634368 acquired on /home/lcur1635/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/blobs/469be27c5c010538f845f518c4f5e8574c78f7c8.lock
+[2023-05-03 19:20:23,621][filelock][INFO] - Lock 22848730634368 released on /home/lcur1635/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/blobs/469be27c5c010538f845f518c4f5e8574c78f7c8.lock
+[2023-05-03 19:20:23,731][filelock][INFO] - Lock 22848730635472 acquired on /home/lcur1635/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/blobs/76e821f1b6f0a9709293c3b6b51ed90980b3166b.lock
+[2023-05-03 19:20:24,112][filelock][INFO] - Lock 22848730635472 released on /home/lcur1635/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/blobs/76e821f1b6f0a9709293c3b6b51ed90980b3166b.lock
+[2023-05-03 19:20:24,330][filelock][INFO] - Lock 22848731402688 acquired on /home/lcur1635/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/blobs/2c2130b544c0c5a72d5d00da071ba130a9800fb2.lock
+[2023-05-03 19:20:24,441][filelock][INFO] - Lock 22848731402688 released on /home/lcur1635/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/blobs/2c2130b544c0c5a72d5d00da071ba130a9800fb2.lock
+[2023-05-03 19:20:24,542][filelock][INFO] - Lock 22848731604064 acquired on /home/lcur1635/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/blobs/5ba7bf706515bc60487ad0e1816b4929b82542d6.lock
+[2023-05-03 19:20:24,654][filelock][INFO] - Lock 22848731604064 released on /home/lcur1635/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/blobs/5ba7bf706515bc60487ad0e1816b4929b82542d6.lock
+[2023-05-03 19:20:24,926][filelock][INFO] - Lock 22848736051744 acquired on /home/lcur1635/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/blobs/4d3e873ab5086ad989f407abd50fdce66db8d657.lock
+[2023-05-03 19:20:25,059][filelock][INFO] - Lock 22848736051744 released on /home/lcur1635/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/blobs/4d3e873ab5086ad989f407abd50fdce66db8d657.lock
+[2023-05-03 19:20:25,164][filelock][INFO] - Lock 22848719094544 acquired on /home/lcur1635/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/blobs/770a47a9ffdcfda0b05506a7888ed714d06131d60267e6cf52765d61cf59fd67.lock
+[2023-05-03 19:20:26,344][filelock][INFO] - Lock 22848719094544 released on /home/lcur1635/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/blobs/770a47a9ffdcfda0b05506a7888ed714d06131d60267e6cf52765d61cf59fd67.lock
+[2023-05-03 19:20:30,160][filelock][INFO] - Lock 22848725445408 acquired on /home/lcur1635/.cache/huggingface/diffusers/models--runwayml--stable-diffusion-v1-5/blobs/1b134cded8eb78b184aefb8805b6b572f36fa77b255c483665dda931fa0130c5.lock
+[2023-05-03 19:20:31,285][filelock][INFO] - Lock 22848725445408 released on /home/lcur1635/.cache/huggingface/diffusers/models--runwayml--stable-diffusion-v1-5/blobs/1b134cded8eb78b184aefb8805b6b572f36fa77b255c483665dda931fa0130c5.lock
+[2023-05-03 19:20:31,387][filelock][INFO] - Lock 22848725446176 acquired on /home/lcur1635/.cache/huggingface/diffusers/models--runwayml--stable-diffusion-v1-5/blobs/55d78924fee13e4220f24320127c5f16284e13b9.lock
+[2023-05-03 19:20:31,497][filelock][INFO] - Lock 22848725446176 released on /home/lcur1635/.cache/huggingface/diffusers/models--runwayml--stable-diffusion-v1-5/blobs/55d78924fee13e4220f24320127c5f16284e13b9.lock
+[2023-05-03 19:20:36,622][__main__][INFO] - {'general': {'save_path': './example_output', 'model_path': 'runwayml/stable-diffusion-v1-5', 'unet_config': './conf/unet/config.json'}, 'inference': {'loss_scale': 30, 'batch_size': 1, 'loss_threshold': 0.2, 'max_iter': 5, 'max_index_step': 10, 'timesteps': 51, 'classifier_free_guidance': 7.5, 'rand_seed': 445}, 'noise_schedule': {'beta_start': 0.00085, 'beta_end': 0.012, 'beta_schedule': 'scaled_linear', 'num_train_timesteps': 1000}}
+[2023-05-03 19:20:36,623][__main__][INFO] - save config to ./example_output/config.yaml
+[2023-05-03 19:20:36,627][__main__][INFO] - Inference
+[2023-05-03 19:20:36,628][__main__][INFO] - Prompt: A hello kitty toy is playing with a purple ball.
+[2023-05-03 19:20:36,628][__main__][INFO] - Phrases: hello kitty; ball
+[2023-05-03 19:20:36,628][__main__][INFO] - Conver Phrases to Object Positions
+[2023-05-03 19:20:59,779][__main__][INFO] - Decode Image...
+[2023-05-03 19:20:59,953][__main__][INFO] - save example image to ./example_output/example_0.png
