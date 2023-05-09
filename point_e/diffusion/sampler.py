@@ -23,6 +23,7 @@ class PointCloudSampler:
     with_options() or with_args().
     """
 
+
     def __init__(
         self,
         device: torch.device,
@@ -120,21 +121,32 @@ class PointCloudSampler:
             self.s_churn,
             self.model_kwargs_key_filter,
         ):
+            
             stage_model_kwargs = model_kwargs.copy()
             if stage_key_filter != "*":
+                # Not invoked 
                 use_keys = set(stage_key_filter.split(","))
                 stage_model_kwargs = {k: v for k, v in stage_model_kwargs.items() if k in use_keys}
             if samples is not None:
+                # Invoked 
                 stage_model_kwargs["low_res"] = samples
             if hasattr(model, "cached_model_kwargs"):
+                # Invoked - Yield embeddings 
+               
                 stage_model_kwargs = model.cached_model_kwargs(batch_size, stage_model_kwargs)
+                
             sample_shape = (batch_size, 3 + len(self.aux_channels), stage_num_points)
 
             if stage_guidance_scale != 1 and stage_guidance_scale != 0:
+                # Invoked
                 for k, v in stage_model_kwargs.copy().items():
                     stage_model_kwargs[k] = torch.cat([v, torch.zeros_like(v)], dim=0)
-
+            
             if stage_use_karras:
+                # here
+                # sample_shape - [1, 6, 1024]
+                # stage_karras_steps - 64
+                
                 samples_it = karras_sample_progressive(
                     diffusion=diffusion,
                     model=model,
@@ -148,6 +160,7 @@ class PointCloudSampler:
                     s_churn=stage_s_churn,
                     guidance_scale=stage_guidance_scale,
                 )
+                #samples_it - Generator object which yields x['pred_x_start]
             else:
                 internal_batch_size = batch_size
                 if stage_guidance_scale:

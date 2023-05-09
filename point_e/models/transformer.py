@@ -122,6 +122,7 @@ class ResidualAttentionBlock(nn.Module):
     def forward(self, x: torch.Tensor):
         #we get the attention map from the multiheadedAttention class.
         x = x + self.attn(self.ln_1(x))
+        print('attn', self.attn(self.ln_1(x)))
         x = x + self.mlp(self.ln_2(x))
         return x
 
@@ -219,28 +220,42 @@ class PointDiffusionTransformer(nn.Module):
     def _forward_with_cond(
         self, x: torch.Tensor, cond_as_token: List[Tuple[torch.Tensor, bool]]
     ) -> torch.Tensor:
+        # Cond as token contains (time, clip)
         #Here we concatenate the time embedding and the clip embedding to the point_cloud representation. 
+        
         h = self.input_proj(x.permute(0, 2, 1))  # NCL -> NLC
+        
         for emb, as_token in cond_as_token:
             if not as_token:
+                # Does not kick in 
                 h = h + emb[:, None]
+        # time embedding, image embedding
+        # extra_tokens: [[[2, 1, 512], [2, 256, 512]]]
         extra_tokens = [
             (emb[:, None] if len(emb.shape) == 2 else emb)
             for emb, as_token in cond_as_token
             if as_token
         ]
+        
         if len(extra_tokens):
+            [2, 1024, 512]
             h = torch.cat(extra_tokens + [h], dim=1)
+            # [2, 1281, 512]
         #Here we call the transformer as a whole, after doing some linear pre processing.
         #And some linear post-processing afterwards.
+        # [2, 1281, 512]
         h = self.ln_pre(h)
-      
+        # [2, 1281, 512]
         h = self.backbone(h)
+        # [2, 1281, 512]
         h = self.ln_post(h)
+        # [2, 1281, 512]
         if len(extra_tokens):
             h = h[:, sum(h.shape[1] for h in extra_tokens) :]
+            # [2, 1024, 512]
         h = self.output_proj(h)
-        return h.permute(0, 2, 1)
+        # [2, 1024, 12]_
+        return h.permute(0, 2, 1) # [2, 12, 1024]
 
 
 class CLIPImagePointDiffusionTransformer(PointDiffusionTransformer):
@@ -267,6 +282,7 @@ class CLIPImagePointDiffusionTransformer(PointDiffusionTransformer):
 
     def cached_model_kwargs(self, batch_size: int, model_kwargs: Dict[str, Any]) -> Dict[str, Any]:
         with torch.no_grad():
+            # Add clip embeddings
             return dict(embeddings=self.clip(batch_size, **model_kwargs))
 
     def forward(
@@ -354,21 +370,30 @@ class CLIPImageGridPointDiffusionTransformer(PointDiffusionTransformer):
         assert images is None or embeddings is None, "cannot specify both images and embeddings"
         assert x.shape[-1] == self.n_ctx
 
+        # [2, 512: transformer width]
         t_embed = self.time_embed(timestep_embedding(t, self.backbone.width))
-
+        
         if images is not None:
+            # Not invoked
             clip_out = self.clip.embed_images_grid(images)
         else:
+            # [2, 1024, 256]
             clip_out = embeddings
-
+        # Still [2, 1024, 256]
         if self.training:
+            print('training')
+            # Not training
             mask = torch.rand(size=[len(x)]) >= self.cond_drop_prob
             clip_out = clip_out * mask[:, None, None].to(clip_out)
 
+        # [2, 256, 1024]
         clip_out = clip_out.permute(0, 2, 1)  # NCL -> NLC
+        # [2, 256, 1024]
         clip_embed = self.clip_embed(clip_out)
+        # self.time_token_cond = True
 
         cond = [(t_embed, self.time_token_cond), (clip_embed, True)]
+        
         return self._forward_with_cond(x, cond)
 
 

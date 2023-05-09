@@ -277,21 +277,30 @@ class GaussianDiffusion:
                  - 'log_variance': the log of 'variance'.
                  - 'pred_xstart': the prediction for x_0.
         """
+
         if model_kwargs is None:
             model_kwargs = {}
-
+        # Here: Model =  CLIPImageGridPointDiffusionTransformer(MLP, layernorm, backbone)
         B, C = x.shape[:2]
+        # B, C = 2, 6
         assert t.shape == (B,)
+        #We need the latents (model_output) and the attention map here (TODO)
+        # x.shape = torch.Size([2, 6, 1024])
+        # t.shape = torch.Size([2])
+        
+        # model_kwargs['embeddings'].shape = torch.Size([2, 1024, 256])
         model_output = model(x, t, **model_kwargs)
+        
         #Here they already prepare for potential extra outputs.
         if isinstance(model_output, tuple):
             model_output, extra = model_output
         else:
             extra = None
-
+        # Model_output: torch.Size([2, 12, 1024])
         if self.model_var_type in ["learned", "learned_range"]:
             assert model_output.shape == (B, C * 2, *x.shape[2:])
             model_output, model_var_values = th.split(model_output, C, dim=1)
+
             if self.model_var_type == "learned":
                 model_log_variance = model_var_values
                 model_variance = th.exp(model_log_variance)
@@ -320,17 +329,21 @@ class GaussianDiffusion:
 
         def process_xstart(x):
             if denoised_fn is not None:
+                # Not invoked
                 x = denoised_fn(x)
             if clip_denoised:
+                # Invoked 
                 return x.clamp(-1, 1)
             return x
 
         if self.model_mean_type == "x_prev":
+            # Not invoked
             pred_xstart = process_xstart(
                 self._predict_xstart_from_xprev(x_t=x, t=t, xprev=model_output)
             )
             model_mean = model_output
         elif self.model_mean_type in ["x_start", "epsilon"]:
+            # Invoked
             if self.model_mean_type == "x_start":
                 pred_xstart = process_xstart(model_output)
             else:
@@ -342,6 +355,7 @@ class GaussianDiffusion:
             raise NotImplementedError(self.model_mean_type)
 
         assert model_mean.shape == model_log_variance.shape == pred_xstart.shape == x.shape
+
         return {
             "mean": model_mean,
             "variance": model_variance,
@@ -521,11 +535,14 @@ class GaussianDiffusion:
         if device is None:
             device = next(model.parameters()).device
         assert isinstance(shape, (tuple, list))
+        # img = 
+
         if noise is not None:
             img = noise
         else:
             img = th.randn(*shape, device=device) * temp
         indices = list(range(self.num_timesteps))[::-1]
+        # img.shape = 
 
         if progress:
             # Lazy import so that we don't depend on tqdm.
@@ -572,6 +589,7 @@ class GaussianDiffusion:
             denoised_fn=denoised_fn,
             model_kwargs=model_kwargs,
         )
+
         if cond_fn is not None:
             out = self.condition_score(cond_fn, out, x, t, model_kwargs=model_kwargs)
 

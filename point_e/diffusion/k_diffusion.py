@@ -96,12 +96,18 @@ class GaussianToKarrasDenoiser:
             return float(self.alpha_cumprod_to_t(alpha_cumprod))
 
     def denoise(self, x_t, sigmas, clip_denoised=True, model_kwargs=None):
+        # Define t through sigma_to_t
+        print('the xt', x_t.shape)
         t = th.tensor(
             [self.sigma_to_t(sigma) for sigma in sigmas.cpu().numpy()],
             dtype=th.long,
             device=sigmas.device,
         )
         c_in = append_dims(1.0 / (sigmas**2 + 1) ** 0.5, x_t.ndim)
+        # C_in [2, 1, 1] same values as t
+        # x_t.ndim = 3
+        # X_T*C_IN [2, 6, 1024]
+        # Here: Calls to diffusion block with model
         out = self.diffusion.p_mean_variance(
             self.model, x_t * c_in, t, clip_denoised=clip_denoised, model_kwargs=model_kwargs
         )
@@ -134,19 +140,21 @@ def karras_sample_progressive(
     s_noise=1.0,
     guidance_scale=0.0,
 ):
+    
     sigmas = get_sigmas_karras(steps, sigma_min, sigma_max, rho, device=device)
     x_T = th.randn(*shape, device=device) * sigma_max
+    # print('x_T ',x_T.shape) [1, 6, 1024]
     sample_fn = {"heun": sample_heun, "dpm": sample_dpm, "ancestral": sample_euler_ancestral}[
         sampler
     ]
-
     if sampler != "ancestral":
+        # Invoked
         sampler_args = dict(s_churn=s_churn, s_tmin=s_tmin, s_tmax=s_tmax, s_noise=s_noise)
     else:
         sampler_args = {}
 
     if isinstance(diffusion, KarrasDenoiser):
-
+        # Not invoked
         def denoiser(x_t, sigma):
             _, denoised = diffusion.denoise(model, x_t, sigma, **model_kwargs)
             if clip_denoised:
@@ -154,8 +162,10 @@ def karras_sample_progressive(
             return denoised
 
     elif isinstance(diffusion, GaussianDiffusion):
-        model = GaussianToKarrasDenoiser(model, diffusion)
+        # Invoked
 
+        model = GaussianToKarrasDenoiser(model, diffusion)
+        
         def denoiser(x_t, sigma):
             _, denoised = model.denoise(
                 x_t, sigma, clip_denoised=clip_denoised, model_kwargs=model_kwargs
@@ -166,7 +176,7 @@ def karras_sample_progressive(
         raise NotImplementedError
 
     if guidance_scale != 0 and guidance_scale != 1:
-
+        # Invoked
         def guided_denoiser(x_t, sigma):
             x_t = th.cat([x_t, x_t], dim=0)
             sigma = th.cat([sigma, sigma], dim=0)
@@ -185,7 +195,9 @@ def karras_sample_progressive(
         progress=progress,
         **sampler_args,
     ):
+        print('hey')
         if isinstance(diffusion, GaussianDiffusion):
+            
             yield diffusion.unscale_out_dict(obj)
         else:
             yield obj
