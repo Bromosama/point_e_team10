@@ -9,10 +9,9 @@ from utils import compute_ca_loss, Pharse2idx, draw_box, setup_logger
 import hydra
 import os
 from tqdm import tqdm
+import matplotlib.pyplot as plt
 
 def inference(device, unet, vae, tokenizer, text_encoder, prompt, bboxes, phrases, cfg, logger):
-
-
     logger.info("Inference")
     logger.info(f"Prompt: {prompt}")
     logger.info(f"Phrases: {phrases}")
@@ -24,18 +23,19 @@ def inference(device, unet, vae, tokenizer, text_encoder, prompt, bboxes, phrase
 
     # Encode Classifier Embeddings
     uncond_input = tokenizer(
-        [""] * cfg.inference.batch_size, padding="max_length", max_length=tokenizer.model_max_length, return_tensors="pt"
+        [""] * cfg.inference.batch_size, padding="max_length", max_length=tokenizer.model_max_length,
+        return_tensors="pt"
     )
     uncond_embeddings = text_encoder(uncond_input.input_ids.to(device))[0]
 
     # Encode Prompt
     input_ids = tokenizer(
-            [prompt] * cfg.inference.batch_size,
-            padding="max_length",
-            truncation=True,
-            max_length=tokenizer.model_max_length,
-            return_tensors="pt",
-        )
+        [prompt] * cfg.inference.batch_size,
+        padding="max_length",
+        truncation=True,
+        max_length=tokenizer.model_max_length,
+        return_tensors="pt",
+    )
 
     cond_embeddings = text_encoder(input_ids.input_ids.to(device))[0]
     text_embeddings = torch.cat([uncond_embeddings, cond_embeddings])
@@ -46,8 +46,10 @@ def inference(device, unet, vae, tokenizer, text_encoder, prompt, bboxes, phrase
         generator=generator,
     ).to(device)
 
-    noise_scheduler = LMSDiscreteScheduler(beta_start=cfg.noise_schedule.beta_start, beta_end=cfg.noise_schedule.beta_end,
-                                           beta_schedule=cfg.noise_schedule.beta_schedule, num_train_timesteps=cfg.noise_schedule.num_train_timesteps)
+    noise_scheduler = LMSDiscreteScheduler(beta_start=cfg.noise_schedule.beta_start,
+                                           beta_end=cfg.noise_schedule.beta_end,
+                                           beta_schedule=cfg.noise_schedule.beta_schedule,
+                                           num_train_timesteps=cfg.noise_schedule.num_train_timesteps)
 
     noise_scheduler.set_timesteps(cfg.inference.timesteps)
 
@@ -64,7 +66,7 @@ def inference(device, unet, vae, tokenizer, text_encoder, prompt, bboxes, phrase
             latent_model_input = noise_scheduler.scale_model_input(latent_model_input, t)
             noise_pred, attn_map_integrated_up, attn_map_integrated_mid, attn_map_integrated_down = \
                 unet(latent_model_input, t, encoder_hidden_states=cond_embeddings)
-           
+
             # update latents with guidance
             loss = compute_ca_loss(attn_map_integrated_mid, attn_map_integrated_up, bboxes=bboxes,
                                    object_positions=object_positions) * cfg.inference.loss_scale
@@ -74,6 +76,7 @@ def inference(device, unet, vae, tokenizer, text_encoder, prompt, bboxes, phrase
             latents = latents - grad_cond * noise_scheduler.sigmas[index] ** 2
             iteration += 1
             torch.cuda.empty_cache()
+            break
 
         with torch.no_grad():
             latent_model_input = torch.cat([latents] * 2)
@@ -82,14 +85,41 @@ def inference(device, unet, vae, tokenizer, text_encoder, prompt, bboxes, phrase
             noise_pred, attn_map_integrated_up, attn_map_integrated_mid, attn_map_integrated_down = \
                 unet(latent_model_input, t, encoder_hidden_states=text_embeddings)
 
+            # visualize
+            print("HEREEEEEEEEEEEEEEEEEEEEEEE")
+            print(unet)
+            print(len(attn_map_integrated_up))
+            print(len(attn_map_integrated_up[0]))
+            print(attn_map_integrated_up[0][0].shape)
+            print(attn_map_integrated_up[0][1].shape)
+            print(len(attn_map_integrated_mid))
+            print(len(attn_map_integrated_mid[0]))
+            print(attn_map_integrated_mid[0][0].shape)
+            print(attn_map_integrated_mid[0][1].shape)
+            print(len(attn_map_integrated_down))
+            print(len(attn_map_integrated_down[0]))
+            print(attn_map_integrated_down[0][0].shape)
+            print(attn_map_integrated_down[0][1].shape)
+
+            att_vis = attn_map_integrated_up[0][0].view(16, 16, 16, 77)
+            att_vis = torch.mean(att_vis, dim=3)
+            att_vis = torch.mean(att_vis, dim=0)
+            print(att_vis.shape)
+            plt.imshow(att_vis, cmap='gray')
+            plt.imsave('my_image.png', att_vis, cmap='gray')
+
+
             noise_pred = noise_pred.sample
 
             # perform guidance
             noise_pred_uncond, noise_pred_text = noise_pred.chunk(2)
-            noise_pred = noise_pred_uncond + cfg.inference.classifier_free_guidance * (noise_pred_text - noise_pred_uncond)
+            noise_pred = noise_pred_uncond + cfg.inference.classifier_free_guidance * (
+                        noise_pred_text - noise_pred_uncond)
 
             latents = noise_scheduler.step(noise_pred, t, latents).prev_sample
             torch.cuda.empty_cache()
+
+        break
 
     with torch.no_grad():
         logger.info("Decode Image...")
@@ -97,6 +127,7 @@ def inference(device, unet, vae, tokenizer, text_encoder, prompt, bboxes, phrase
         image = vae.decode(latents).sample
         image = (image / 2 + 0.5).clamp(0, 1)
         image = image.detach().cpu().permute(0, 2, 3, 1).numpy()
+        print(image.shape)
         images = (image * 255).round().astype("uint8")
         pil_images = [Image.fromarray(image) for image in images]
         return pil_images
@@ -104,11 +135,11 @@ def inference(device, unet, vae, tokenizer, text_encoder, prompt, bboxes, phrase
 
 @hydra.main(version_base=None, config_path="conf", config_name="base_config")
 def main(cfg):
-
     # build and load model
     with open(cfg.general.unet_config) as f:
         unet_config = json.load(f)
-    unet = unet_2d_condition.UNet2DConditionModel(**unet_config).from_pretrained(cfg.general.model_path, subfolder="unet")
+    unet = unet_2d_condition.UNet2DConditionModel(**unet_config).from_pretrained(cfg.general.model_path,
+                                                                                 subfolder="unet")
     tokenizer = CLIPTokenizer.from_pretrained(cfg.general.model_path, subfolder="tokenizer")
     text_encoder = CLIPTextModel.from_pretrained(cfg.general.model_path, subfolder="text_encoder")
     vae = AutoencoderKL.from_pretrained(cfg.general.model_path, subfolder="vae")
@@ -118,8 +149,6 @@ def main(cfg):
     unet.to(device)
     text_encoder.to(device)
     vae.to(device)
-
-
 
     # ------------------ example input ------------------
     examples = {"prompt": "A hello kitty toy is playing with a purple ball.",
@@ -139,13 +168,15 @@ def main(cfg):
     OmegaConf.save(cfg, os.path.join(cfg.general.save_path, 'config.yaml'))
 
     # Inference
-    pil_images = inference(device, unet, vae, tokenizer, text_encoder, examples['prompt'], examples['bboxes'], examples['phrases'], cfg, logger)
+    pil_images = inference(device, unet, vae, tokenizer, text_encoder, examples['prompt'], examples['bboxes'],
+                           examples['phrases'], cfg, logger)
 
     # Save example images
     for index, pil_image in enumerate(pil_images):
         image_path = os.path.join(cfg.general.save_path, 'example_{}.png'.format(index))
         logger.info('save example image to {}'.format(image_path))
         draw_box(pil_image, examples['bboxes'], examples['phrases'], image_path)
+
 
 if __name__ == "__main__":
     main()
