@@ -76,7 +76,7 @@ def inference(device, unet, vae, tokenizer, text_encoder, prompt, bboxes, phrase
             latents = latents - grad_cond * noise_scheduler.sigmas[index] ** 2
             iteration += 1
             torch.cuda.empty_cache()
-            break
+            # break
 
         with torch.no_grad():
             latent_model_input = torch.cat([latents] * 2)
