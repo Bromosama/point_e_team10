@@ -102,7 +102,8 @@ def inference(device, unet, vae, tokenizer, text_encoder, prompt, bboxes, phrase
             print(attn_map_integrated_down[0][1].shape)
 
             att_vis = attn_map_integrated_up[0][0].view(16, 16, 16, 77)
-            att_vis = torch.mean(att_vis, dim=3)
+            att_vis = att_vis[:, :, :, 0]
+            # att_vis = torch.mean(att_vis, dim=3)
             att_vis = torch.mean(att_vis, dim=0)
             print(att_vis.shape)
             plt.imshow(att_vis, cmap='gray')
