@@ -11,8 +11,6 @@ import os
 from tqdm import tqdm
 
 def inference(device, unet, vae, tokenizer, text_encoder, prompt, bboxes, phrases, cfg, logger):
-
-
     logger.info("Inference")
     logger.info(f"Prompt: {prompt}")
     logger.info(f"Phrases: {phrases}")
