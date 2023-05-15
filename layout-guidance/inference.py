@@ -10,6 +10,8 @@ import hydra
 import os
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+import os
+import imageio
 
 def inference(device, unet, vae, tokenizer, text_encoder, prompt, bboxes, phrases, cfg, logger):
     logger.info("Inference")
@@ -107,7 +109,9 @@ def inference(device, unet, vae, tokenizer, text_encoder, prompt, bboxes, phrase
             att_vis = torch.mean(att_vis, dim=0)
             print(att_vis.shape)
             plt.imshow(att_vis, cmap='gray')
-            plt.imsave('my_image.png', att_vis, cmap='gray')
+            if not os.path.exists('att_outs'):
+                os.makedirs('att_outs')
+            plt.imsave(f'att_outs/my_image{index}.png', att_vis, cmap='gray')
 
 
             noise_pred = noise_pred.sample
@@ -120,7 +124,19 @@ def inference(device, unet, vae, tokenizer, text_encoder, prompt, bboxes, phrase
             latents = noise_scheduler.step(noise_pred, t, latents).prev_sample
             torch.cuda.empty_cache()
 
-        break
+        # break
+    # create gif
+    # Path to the folder containing the images
+    folder_path = 'att_outs'
+    # List all the image files in the folder
+    file_list = sorted(os.listdir(folder_path))
+    # Create a list of image file paths
+    image_paths = [os.path.join(folder_path, file) for file in file_list]
+    # Create the GIF animation using imageio
+    with imageio.get_writer('animation.gif', mode='I') as writer:
+        for image_path in image_paths:
+            image = imageio.imread(image_path)
+            writer.append_data(image)
 
     with torch.no_grad():
         logger.info("Decode Image...")
