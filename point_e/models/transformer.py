@@ -122,7 +122,7 @@ class ResidualAttentionBlock(nn.Module):
     def forward(self, x: torch.Tensor):
         #we get the attention map from the multiheadedAttention class.
         x = x + self.attn(self.ln_1(x))
-        print('attn', self.attn(self.ln_1(x)))
+
         x = x + self.mlp(self.ln_2(x))
         return x
 
@@ -381,7 +381,6 @@ class CLIPImageGridPointDiffusionTransformer(PointDiffusionTransformer):
             clip_out = embeddings
         # Still [2, 1024, 256]
         if self.training:
-            print('training')
             # Not training
             mask = torch.rand(size=[len(x)]) >= self.cond_drop_prob
             clip_out = clip_out * mask[:, None, None].to(clip_out)

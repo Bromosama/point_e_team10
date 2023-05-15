@@ -97,7 +97,7 @@ class GaussianToKarrasDenoiser:
 
     def denoise(self, x_t, sigmas, clip_denoised=True, model_kwargs=None):
         # Define t through sigma_to_t
-        print('the xt', x_t.shape)
+        
         t = th.tensor(
             [self.sigma_to_t(sigma) for sigma in sigmas.cpu().numpy()],
             dtype=th.long,
@@ -195,7 +195,6 @@ def karras_sample_progressive(
         progress=progress,
         **sampler_args,
     ):
-        print('hey')
         if isinstance(diffusion, GaussianDiffusion):
             
             yield diffusion.unscale_out_dict(obj)
