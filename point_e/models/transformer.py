@@ -12,6 +12,7 @@ import torch.nn as nn
 from .checkpoint import checkpoint
 from .pretrained_clip import FrozenImageCLIP, ImageCLIP, ImageType
 from .util import timestep_embedding
+import sys
 
 
 def init_linear(l, stddev):
@@ -80,7 +81,41 @@ class QKVMultiheadAttention(nn.Module):
             "bthc,bshc->bhts", q * scale, k * scale
         )  # More stable with f16 than dividing afterwards
         wdtype = weight.dtype
+
+        # set the mask or focus here, options: None, uniform, pc_to_pc, pc_to_pc_diag, img_to_pc, pc_to_img, img_to_img
+        mask = "None" 
+        focus = "None" 
+
+        if mask == "uniform":
+            weight[:, :, :, :].fill_(0)  
+        elif mask == "pc_to_pc":
+            weight[:, :, 257:, 257:].fill_(-1000) 
+        elif mask == "pc_to_pc_diag":
+            for i in range(257, 1281):
+                weight[:, :, i, i].fill_(-1000) 
+        elif mask == "img_to_pc":
+            weight[:, :, :257, 257:].fill_(-1000)  
+        elif mask == "pc_to_img":
+            weight[:, :, 257:, :257].fill_(-1000)  
+        elif mask == "img_to_img":
+            weight[:, :, :257, :257].fill_(-1000) 
+
+        if focus == "uniform":
+            weight[:, :, :, :].fill_(0)  
+        elif focus == "pc_to_pc":
+            weight[:, :, 257:, 257:] *= 2
+        elif focus == "pc_to_pc_diag":
+            for i in range(257, 1281):
+                weight[:, :, i, i] *= 2
+        elif focus == "img_to_pc":
+            weight[:, :, :257, 257:] *= 2 
+        elif focus == "pc_to_img":
+            weight[:, :, 257:, :257] *= 2  
+        elif focus == "img_to_img":
+            weight[:, :, :257, :257] *= 2  
+
         weight = torch.softmax(weight.float(), dim=-1).type(wdtype)
+
         '''
         #In layout control they multiply the q and k which are [batch, target, heads] and [batch, source, heads] then sum it to
         #[batch, target, source] in their einsum. But here we multiply q and k which are [batch, target, heads, c?] and [batch, source, heads, c?]
