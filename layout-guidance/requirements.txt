@@ -1,5 +1,5 @@
 torch==1.13.1
-torchvision==0.14.1
+torchvision==0.15.1
 omegaconf==2.2.3
 opencv-python
 imageio==2.9.0

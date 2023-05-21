@@ -205,7 +205,7 @@ def plot_attention_index(
             if color:
                 im = ax.scatter(c[:, 0], c[:, 1], c[:, 2], **color_args)
             else:
-                im = ax.scatter(c[:, 0], c[:, 1], c[:, 2], c = col, s = 2, cmap = 'rocket_r',  alpha = alpha_val)
+                im = ax.scatter(c[:, 0], c[:, 1], c[:, 2], c = col, s = 2, cmap = 'rocket_r',  alpha = alpha_val, vmin=0, vmax=1)
                 if track_idx != None:
                     im = ax.scatter(c[track_idx, 0], c[track_idx, 1], c[track_idx, 2], c = [1], cmap = 'rocket_r', vmin=0, vmax=1)
                 
