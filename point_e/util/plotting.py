@@ -4,7 +4,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib as mpl
 from .point_cloud import PointCloud
-
+import seaborn as sns
+#sns.set_style(rc = {'axes.facecolor': 'lightsteelblue'})
+sns.set_style("darkgrid")
+sns.set_style("darkgrid", {'grid.color': 'lightsteelblue', 'axes.facecolor': 'white'})
 
 def plot_point_cloud(
     pc: PointCloud,
@@ -46,7 +49,7 @@ def plot_point_cloud(
                 )
                 c = c @ rotation
 
-            ax.scatter(c[:, 0], c[:, 1], c[:, 2], **color_args)
+            ax.scatter(c[:, 0], c[:, 1], c[:, 2], **color_args, s = 5)
 
             if fixed_bounds is None:
                 min_point = c.min(0)
