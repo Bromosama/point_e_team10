@@ -22,18 +22,17 @@ The official code and model release for Training Free layout control can be foun
 | `src/layout_guidance` | Source code used for Training-Free Layout Control with Cross-Attention Guidance. Adapted from the [repo of the original paper](https://github.com/silent-chen/layout-guidance). |
 | `src/point_e` | Source code used for point-e point cloud diffusion. Adapted from the [repo of the original paper](https://github.com/openai/point-e). |
 | `src/imgs/` | Location where produced images are stored. |
+| `src/imgs/results/` | Location where all the pre-produced results are stored. |
 | `src/scripts/` | Files to run that reproduce the results. |
-| `src/train_results/` | Location where all trained models and its (intermediate) results are stored. |
 | `paper.pdf` | Report introducing original work, discussing our novel contribution and analaysis. |
 
 
 # Usage
 
-
 First, install the conda environment 
 ```shell
 conda create -n isg python=3.8
-source activate isg
+conda activate isg
 
 pip install -r requirements.txt
 ```
@@ -42,19 +41,12 @@ pip install -r requirements.txt
 
 To get started with examples, see the following notebooks:
 
- * [image2pointcloud.ipynb](src/point_e/examples/image2pointcloud.ipynb) - sample a point cloud, conditioned on some example synthetic view images.
- * [text2pointcloud.ipynb](src/point_e/examples/text2pointcloud.ipynb) - use our small, worse quality pure text-to-3D model to produce 3D point clouds directly from text descriptions. This model's capabilities are limited, but it does understand some simple categories and colors.
- * [pointcloud2mesh.ipynb](src/point_e/examples/pointcloud2mesh.ipynb) - try our SDF regression model for producing meshes from point clouds.
+ * [Demo_Text2PointCloud.ipynb](demos/Demo_Text2PointCloud.ipynb) - try the text-to-3D model to produce 3D point clouds directly from text descriptions, using either Stable Diffusion or GLIDE backbone. 
+ * [2D_Attention_Analysis.ipynb](demos/2D_Attention_Analysis.ipynb) - try the 2D attention map tools for training-free layout guidance with a Stable Diffusion backbone
+ * [3D_Attention_Analysis.ipynb](demos/3D_Attention_Analysis.ipynb) - try the 3D attention map tools for evaluation attention in point cloud diffusion with point-E
+ * [3D_Attention_CLIP.ipynb](demos/3D_Attention_CLIP.ipynb) - try the 3D attention map tools for evaluation the cross-attention associated with the CLIP image embeddings in point cloud diffusion with point-E
 
-For our P-FID and P-IS evaluation scripts, see:
-
- * [evaluate_pfid.py](src/point_e/evals/scripts/evaluate_pfid.py)
- * [evaluate_pis.py](src/point_e/evals/scripts/evaluate_pis.py)
-
-For our Blender rendering code, see [blender_script.py](src/point_e/evals/scripts/blender_script.py)
-
+ 
 # Samples
 
-You can download the seed images and point clouds corresponding to the paper banner images [here](https://openaipublic.azureedge.net/main/point-e/banner_pcs.zip).
-
-You can download the seed images used for COCO CLIP R-Precision evaluations [here](https://openaipublic.azureedge.net/main/point-e/coco_images.zip).
+You can download the seed images and point clouds corresponding to the paper banner images of point-E [here](https://openaipublic.azureedge.net/main/point-e/banner_pcs.zip).
