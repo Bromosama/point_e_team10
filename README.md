@@ -37,7 +37,7 @@ conda activate isg
 pip install -r requirements.txt
 ```
 
-# Usage 
+# Demonstrations
 
 To get started with examples, see the following notebooks:
 
