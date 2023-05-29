@@ -9,6 +9,7 @@ from PIL import Image
 import nopdb
 import math, torch
 import numpy as np
+import torch.nn.functional as F
 from tqdm.auto import tqdm
 
 import sys, os 
@@ -36,7 +37,7 @@ class AttentionTools():
         sampler: .
        
     """
-    def __init__(self, base_model, sampler):
+    def __init__(self, base_model, sampler, breakpoints = None, cut = -1):
         self.base_model = base_model
         self.sampler = sampler
 
@@ -45,8 +46,12 @@ class AttentionTools():
         self.parent_dir = os.path.join(sys.path[0], '../')
         self.output_dir = os.path.join(self.parent_dir, 'src/imgs/results/')
 
-        self.breakpoints = [0, 10, 20, 30, 40, 50, 60, 64, 120]
-        self.breakpoints_downsample = self.breakpoints[:-1]
+        if breakpoints == None:
+            self.breakpoints = [0, 10, 20, 30, 40, 50, 60, 64, 120]
+        else: 
+            self.breakpoints = breakpoints
+        
+        self.breakpoints_downsample = self.breakpoints[:cut]
         self.time = [0, 1, 2, 3, 4, 5, 6, 7, 8]
         self.time_downnsample = self.time[:-1]
     
@@ -245,6 +250,34 @@ class AttentionTools():
                         fps = 0.5)         # optional: frames per second
         
 
+    def CLIP_embeddings(self, cross_attn, img):
+        frames = []
+        path = self.make_directory('CLIP_cross_attention/')
+        for i,cross in enumerate(cross_attn):
+            c = torch.mean(cross, dim= 1)
+            sftm = torch.nn.Softmax(dim=0)
+            c  = sftm(c)
+
+            c = c[1:257]
+
+            c = c.reshape(1,1,16,16)
+        
+            c = F.interpolate(c,  size=(img.size[0],img.size[1]), mode= 'bilinear')
+            plt.axis('off')
+            fig = plt.imshow(c.squeeze(), cmap = 'rocket_r')
+            plt.savefig(path + 'fig' + str(i) + '.png', bbox_inches='tight')
+            attention_img = Image.open(path + 'fig' + str(i) + '.png').convert(img.mode)
+            img = img.resize((500,500))
+            attention_img = attention_img.resize((500,500))
+            outpict = Image.blend(img,attention_img, 0.5)
+            fig = plt.imshow(outpict)
+            plt.savefig(path + 'blended_fig'+ str(i) + '.png', bbox_inches='tight', dpi = 300)
+            frames.append(outpict) 
+
+        imageio.mimsave(path + 'cross_attn_Diffusion_chair.gif', # output gif
+                frames,          # array of input frames
+                duration = 0.1)   
+    
 
 """
     def build_off_diagonal_mask(off_element):

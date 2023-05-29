@@ -41,6 +41,7 @@ def plot_point_cloud(
     for i in range(grid_size):
         for j in range(grid_size):
             ax = fig.add_subplot(grid_size, grid_size, 1 + j + i * grid_size, projection="3d")
+            
             color_args = {}
             if color:
                 color_args["c"] = np.stack(
@@ -185,20 +186,22 @@ def plot_attention_index(
     fig = plt.figure(figsize=(8, 8))
     axes = []
     N = 1024
-    print(pc)
 
     x = np.linspace(0, N-1, N)
     y = np.linspace(0, N-1, N)
 
     X, Y = np.meshgrid(x, y)
-    print(X)
+    
     grid = np.dstack((X, Y, col))
     grid = grid.reshape(-1, grid.shape[-1])
+    plt.ticklabel_format(style='sci', axis='y')  #y-axis scientific notation turned off
+
     
     
     for i in range(grid_size):
         for j in range(grid_size):
             ax = fig.add_subplot(grid_size, grid_size, 1 + j + i * grid_size, projection="3d")
+            ax.ticklabel_format(style='sci', axis='y')  #y-axis scientific notation turned off
             axes.append(ax)
             color_args = {}
             if color:
@@ -219,8 +222,11 @@ def plot_attention_index(
                 c = c @ rotation
             if color:
                 im = ax.scatter(c[:, 0], c[:, 1], c[:, 2], **color_args)
+                ax.ticklabel_format(style='sci', axis='y')  #y-axis scientific notation turned off
+
             else:
-                im = ax.scatter(c[:, 0], c[:, 1], c[:, 2], c = col, s = 2, cmap = 'rocket_r',  alpha = alpha_val, vmin=0, vmax=1)
+                im = ax.scatter(c[:, 0], c[:, 1], c[:, 2], c = col, s = 2, cmap = 'rocket_r',  alpha = alpha_val)
+                ax.ticklabel_format(style='sci', axis='y')  #y-axis scientific notation turned off
                 if track_idx != None:
                     im = ax.scatter(c[track_idx, 0], c[track_idx, 1], c[track_idx, 2], c = [1], cmap = 'rocket_r', vmin=0, vmax=1)
                 
