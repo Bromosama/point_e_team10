@@ -21,7 +21,6 @@ The official code and model release for Training Free layout control can be foun
 | `demos/` | Notebooks used to analyze training runs, results and render scenes. |
 | `src/layout_guidance` | Source code used for Training-Free Layout Control with Cross-Attention Guidance. Adapted from the [repo of the original paper](https://github.com/silent-chen/layout-guidance). |
 | `src/point_e` | Source code used for point-e point cloud diffusion. Adapted from the [repo of the original paper](https://github.com/openai/point-e). |
-
 | `src/imgs/` | Location where produced images are stored. |
 | `src/scripts/` | Files to run that reproduce the results. |
 | `src/train_results/` | Location where all trained models and its (intermediate) results are stored. |
