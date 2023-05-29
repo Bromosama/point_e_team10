@@ -5,9 +5,9 @@ Authors: *Luyang Busser, Alessia Hu, Oline Ranum, Luc Sträter, Sina Taslimi, Mi
 This repository contains code and blogpost on the reproduction and extension of [Point-E: A System for Generating 3D Point Clouds from Complex Prompts](https://arxiv.org/abs/2212.08751), 2022. We present framework for extending point cloud diffusion models to accomodate indoor scene generations directly from text prompts. The framework is able to produce small scenes composed of 2-3 furnitures. For an in-depth discussion of our work, see the paper.
 
 <p align="center">
-   <img src="src/point_e/examples/paper_banner.gif width = 500> 
+   <img src="src/imgs/results/Diffusion.gif width = 500> 
    <br>
-   <text><em>Animation of four 3D point clouds rotating.</em></text>
+   <text><em>Animation of four 3D point clouds diffusing.</em></text>
 </p>
 
 The official code and model release for Point-E can be found at [Point-E: A System for Generating 3D Point Clouds from Complex Prompts](https://github.com/openai/point-e).
