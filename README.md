@@ -1,25 +1,58 @@
-# Point·E
+# Indoor scene generation using Point-E and Training Free Layout Control
 
-![Animation of four 3D point clouds rotating](point_e/examples/paper_banner.gif)
+Authors: *Luyang Busser, Alessia Hu, Oline Ranum, Luc Sträter, Sina Taslimi, Miranda Zhou*
 
-This is the official code and model release for [Point-E: A System for Generating 3D Point Clouds from Complex Prompts](https://arxiv.org/abs/2212.08751).
+This repository contains code and blogpost on the reproduction and extension of [Point-E: A System for Generating 3D Point Clouds from Complex Prompts](https://arxiv.org/abs/2212.08751), 2022. We present framework for extending point cloud diffusion models to accomodate indoor scene generations directly from text prompts. The framework is able to produce small scenes composed of 2-3 furnitures. For an in-depth discussion of our work, see the paper.
+
+<p align="center">
+   <img src="src/point_e/examples/paper_banner.gif width = 500> 
+   <br>
+   <text><em>Animation of four 3D point clouds rotating.</em></text>
+</p>
+
+The official code and model release for Point-E can be found at [Point-E: A System for Generating 3D Point Clouds from Complex Prompts](https://github.com/openai/point-e).
+
+The official code and model release for Training Free layout control can be found at [Training-Free Layout Control with Cross-Attention Guidance](https://github.com/silent-chen/layout-guidance).
+
+## Code structure
+
+| Directory | Description |
+| --------- | ----------- |
+| `demos/` | Notebooks used to analyze training runs, results and render scenes. |
+| `src/layout_guidance` | Source code used for Training-Free Layout Control with Cross-Attention Guidance. Adapted from the [repo of the original paper](https://github.com/silent-chen/layout-guidance). |
+| `src/point_e` | Source code used for point-e point cloud diffusion. Adapted from the [repo of the original paper](https://github.com/openai/point-e). |
+
+| `src/imgs/` | Location where produced images are stored. |
+| `src/scripts/` | Files to run that reproduce the results. |
+| `src/train_results/` | Location where all trained models and its (intermediate) results are stored. |
+| `paper.pdf` | Report introducing original work, discussing our novel contribution and analaysis. |
+
 
 # Usage
 
-Install with `pip install -e .`.
+
+First, install the conda environment and [Blender](https://www.blender.org/)
+```shell
+conda env create -f isg.yml
+conda activate isg
+
+pip install -e .`
+```
+
+# Usage 
 
 To get started with examples, see the following notebooks:
 
- * [image2pointcloud.ipynb](point_e/examples/image2pointcloud.ipynb) - sample a point cloud, conditioned on some example synthetic view images.
- * [text2pointcloud.ipynb](point_e/examples/text2pointcloud.ipynb) - use our small, worse quality pure text-to-3D model to produce 3D point clouds directly from text descriptions. This model's capabilities are limited, but it does understand some simple categories and colors.
- * [pointcloud2mesh.ipynb](point_e/examples/pointcloud2mesh.ipynb) - try our SDF regression model for producing meshes from point clouds.
+ * [image2pointcloud.ipynb](src/point_e/examples/image2pointcloud.ipynb) - sample a point cloud, conditioned on some example synthetic view images.
+ * [text2pointcloud.ipynb](src/point_e/examples/text2pointcloud.ipynb) - use our small, worse quality pure text-to-3D model to produce 3D point clouds directly from text descriptions. This model's capabilities are limited, but it does understand some simple categories and colors.
+ * [pointcloud2mesh.ipynb](src/point_e/examples/pointcloud2mesh.ipynb) - try our SDF regression model for producing meshes from point clouds.
 
 For our P-FID and P-IS evaluation scripts, see:
 
- * [evaluate_pfid.py](point_e/evals/scripts/evaluate_pfid.py)
- * [evaluate_pis.py](point_e/evals/scripts/evaluate_pis.py)
+ * [evaluate_pfid.py](src/point_e/evals/scripts/evaluate_pfid.py)
+ * [evaluate_pis.py](src/point_e/evals/scripts/evaluate_pis.py)
 
-For our Blender rendering code, see [blender_script.py](point_e/evals/scripts/blender_script.py)
+For our Blender rendering code, see [blender_script.py](src/point_e/evals/scripts/blender_script.py)
 
 # Samples
 
