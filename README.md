@@ -32,10 +32,10 @@ The official code and model release for Training Free layout control can be foun
 
 First, install the conda environment and [Blender](https://www.blender.org/)
 ```shell
-conda env create -f isg.yml
-conda activate isg
+conda create -n isg python=3.8
+source activate isg
 
-pip install -e .`
+pip install -r requirements.txt
 ```
 
 # Usage 
