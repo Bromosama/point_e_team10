@@ -104,7 +104,8 @@ def inference(device, unet, vae, tokenizer, text_encoder, prompt, bboxes, phrase
 @hydra.main(version_base=None, config_path="conf", config_name="base_config")
 def main(cfg):
     # build and load model
-    with open(cfg.general.unet_config) as f:
+    # with open(cfg.general.unet_config) as f:
+    with open('src/layout_guidance/conf/unet/config.json') as f:
         unet_config = json.load(f)
     unet = unet_2d_condition.UNet2DConditionModel(**unet_config).from_pretrained(cfg.general.model_path, subfolder="unet")
     tokenizer = CLIPTokenizer.from_pretrained(cfg.general.model_path, subfolder="tokenizer")
