@@ -2,13 +2,14 @@ import torch
 from omegaconf import OmegaConf
 from transformers import CLIPTextModel, CLIPTokenizer
 from diffusers import AutoencoderKL, LMSDiscreteScheduler
-from my_model import unet_2d_condition
+from src.layout_guidance.my_model import unet_2d_condition
 import json
 from PIL import Image
-from utils import compute_ca_loss, Pharse2idx, draw_box, setup_logger
+from src.layout_guidance.utils import compute_ca_loss, Pharse2idx, draw_box, setup_logger
 import hydra
 import os
 from tqdm import tqdm
+
 
 def inference(device, unet, vae, tokenizer, text_encoder, prompt, bboxes, phrases, cfg, logger):
     logger.info("Inference")
@@ -102,9 +103,9 @@ def inference(device, unet, vae, tokenizer, text_encoder, prompt, bboxes, phrase
 
 @hydra.main(version_base=None, config_path="conf", config_name="base_config")
 def main(cfg):
-
     # build and load model
-    with open(cfg.general.unet_config) as f:
+    # with open(cfg.general.unet_config) as f:
+    with open('src/layout_guidance/conf/unet/config.json') as f:
         unet_config = json.load(f)
     unet = unet_2d_condition.UNet2DConditionModel(**unet_config).from_pretrained(cfg.general.model_path, subfolder="unet")
     tokenizer = CLIPTokenizer.from_pretrained(cfg.general.model_path, subfolder="tokenizer")
