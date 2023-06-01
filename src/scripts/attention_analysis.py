@@ -24,9 +24,9 @@ from point_e.diffusion.configs import DIFFUSION_CONFIGS, diffusion_from_config
 from point_e.diffusion.sampler import PointCloudSampler
 from point_e.models.download import load_checkpoint
 from point_e.models.configs import MODEL_CONFIGS, model_from_config
-from point_e.util.plotting import plot_point_cloud
-from point_e.util.plotting import plot_attention_cloud
-from point_e.util.plotting import plot_attention_index
+from src.scripts.plotting import plot_point_cloud
+from src.scripts.plotting import plot_attention_cloud
+from src.scripts.plotting import plot_attention_index, plot_heatmap
 
 
 class AttentionTools():
@@ -45,14 +45,14 @@ class AttentionTools():
 
         self.parent_dir = os.path.join(sys.path[0], '../')
         self.output_dir = os.path.join(self.parent_dir, 'src/imgs/results/')
-
-        if breakpoints == None:
-            self.breakpoints = [0, 10, 20, 30, 40, 50, 60, 64, 120]
-        else: 
+        try:
+            if breakpoints == None:
+                self.breakpoints = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 64, 120]
+        except ValueError:
             self.breakpoints = breakpoints
         
         self.breakpoints_downsample = self.breakpoints[:cut]
-        self.time = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+        self.time = np.arange(len(self.breakpoints))
         self.time_downnsample = self.time[:-1]
     
     def make_directory(self, dir):
@@ -116,7 +116,7 @@ class AttentionTools():
             plt.savefig(path +str(self.breakpoints_downsample[k]) + '.png', bbox_inches='tight')
             plt.close()
     
-    def make_gif(self, path, gif_name, fp = 0.5):
+    def make_gif(self, path, gif_name, fp = 5):
         images = [path + str(k) + '.png' for k in self.breakpoints_downsample]
         frames = []
         for t in self.time_downnsample:
@@ -161,7 +161,7 @@ class AttentionTools():
         for k in range(len(self.breakpoints_downsample)):
             pc = self.sampler.output_to_point_clouds(samples[k])[0]
             
-            fig = plot_attention_index(pc, grid_size=3, fixed_bounds=((-0.75, -0.75, -0.75),(0.75, 0.75, 0.75)), col = self_attn[k])
+            fig = plot_heatmap(pc, grid_size=3, fixed_bounds=((-0.75, -0.75, -0.75),(0.75, 0.75, 0.75)), col = self_attn[k])
             fig.suptitle('iterations = ' + str(self.breakpoints_downsample[k]))
             plt.savefig(path + '/fig' + str(self.breakpoints_downsample[k]) + '.png', bbox_inches='tight')
             image = imageio.v2.imread(path + '/fig' + str(self.breakpoints_downsample[k]) + '.png')
