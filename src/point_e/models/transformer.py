@@ -31,6 +31,8 @@ class MultiheadAttention(nn.Module):
         width: int,
         heads: int,
         init_scale: float,
+        mask: str,
+        focus: str,
     ):
         super().__init__()
         self.n_ctx = n_ctx
@@ -38,7 +40,7 @@ class MultiheadAttention(nn.Module):
         self.heads = heads
         self.c_qkv = nn.Linear(width, width * 3, device=device, dtype=dtype)
         self.c_proj = nn.Linear(width, width, device=device, dtype=dtype)
-        self.attention = QKVMultiheadAttention(device=device, dtype=dtype, heads=heads, n_ctx=n_ctx)
+        self.attention = QKVMultiheadAttention(device=device, dtype=dtype, heads=heads, n_ctx=n_ctx, mask=mask, focus=focus)
         init_linear(self.c_qkv, init_scale)
         init_linear(self.c_proj, init_scale)
 
@@ -64,12 +66,15 @@ class MLP(nn.Module):
 
 
 class QKVMultiheadAttention(nn.Module):
-    def __init__(self, *, device: torch.device, dtype: torch.dtype, heads: int, n_ctx: int):
+    def __init__(self, *, device: torch.device, dtype: torch.dtype, heads: int, n_ctx: int, mask: str, focus: str):
         super().__init__()
         self.device = device
         self.dtype = dtype
         self.heads = heads
         self.n_ctx = n_ctx
+
+        self.mask = mask
+        self.focus = focus
 
     def forward(self, qkv):
         bs, n_ctx, width = qkv.shape
@@ -82,41 +87,39 @@ class QKVMultiheadAttention(nn.Module):
         )  # More stable with f16 than dividing afterwards
         wdtype = weight.dtype
 
-        # set the mask or focus here, options: None, uniform, pc_to_pc, pc_to_pc_diag, img_to_pc, pc_to_img, img_to_img, cross_attention
-        mask = "None" 
-        focus = "None" 
 
-        if mask == "uniform":
+
+        if self.mask == "uniform":
             weight[:, :, :, :].fill_(0)  
-        elif mask == "pc_to_pc":
+        elif self.mask == "pc_to_pc":
             weight[:, :, 257:, 257:].fill_(-1000) 
-        elif mask == "pc_to_pc_diag":
+        elif self.mask == "pc_to_pc_diag":
             for i in range(257, 1281):
                 weight[:, :, i, i].fill_(-1000) 
-        elif mask == "img_to_pc":
+        elif self.mask == "img_to_pc":
             weight[:, :, :257, 257:].fill_(-1000)  
-        elif mask == "pc_to_img":
+        elif self.mask == "pc_to_img":
             weight[:, :, 257:, :257].fill_(-1000)  
-        elif mask == "img_to_img":
+        elif self.mask == "img_to_img":
             weight[:, :, :257, :257].fill_(-1000) 
-        elif mask == "cross_attention":
+        elif self.mask == "cross_attention":
             weight[:, :, :257, 257:].fill_(-1000) 
             weight[:, :, 257:, :257].fill_(-1000)
 
-        if focus == "uniform":
+        if self.focus == "uniform":
             weight[:, :, :, :].fill_(0)  
-        elif focus == "pc_to_pc":
+        elif self.focus == "pc_to_pc":
             weight[:, :, 257:, 257:] *= 1.25
-        elif focus == "pc_to_pc_diag":
+        elif self.focus == "pc_to_pc_diag":
             for i in range(257, 1281):
                 weight[:, :, i, i] *= 1.25
-        elif focus == "img_to_pc":
+        elif self.focus == "img_to_pc":
             weight[:, :, :257, 257:] *= 1.25 
-        elif focus == "pc_to_img":
+        elif self.focus == "pc_to_img":
             weight[:, :, 257:, :257] *= 1.25  
-        elif focus == "img_to_img":
+        elif self.focus == "img_to_img":
             weight[:, :, :257, :257] *= 1.25  
-        elif focus == "cross_attention":
+        elif self.focus == "cross_attention":
             weight[:, :, :257, 257:] *= 2 
             weight[:, :, 257:, :257] *= 2 
 
@@ -145,6 +148,8 @@ class ResidualAttentionBlock(nn.Module):
         width: int,
         heads: int,
         init_scale: float = 1.0,
+        mask = str,
+        focus = str,
     ):
         super().__init__()
 
@@ -155,6 +160,8 @@ class ResidualAttentionBlock(nn.Module):
             width=width,
             heads=heads,
             init_scale=init_scale,
+            mask = mask,
+            focus = focus
         )
         self.ln_1 = nn.LayerNorm(width, device=device, dtype=dtype)
         self.mlp = MLP(device=device, dtype=dtype, width=width, init_scale=init_scale)
@@ -179,6 +186,8 @@ class Transformer(nn.Module):
         layers: int,
         heads: int,
         init_scale: float = 0.25,
+        mask: str,
+        focus: str,
     ):
         super().__init__()
         self.n_ctx = n_ctx
@@ -197,6 +206,8 @@ class Transformer(nn.Module):
                     width=width,
                     heads=heads,
                     init_scale=init_scale,
+                    mask = mask,
+                    focus = focus
                 )
                 for _ in range(layers)
             ]
@@ -222,6 +233,8 @@ class PointDiffusionTransformer(nn.Module):
         heads: int = 8,
         init_scale: float = 0.25,
         time_token_cond: bool = False,
+        mask: str = "None",
+        focus: str = "None",
     ):
         super().__init__()
         self.input_channels = input_channels
@@ -240,6 +253,8 @@ class PointDiffusionTransformer(nn.Module):
             layers=layers,
             heads=heads,
             init_scale=init_scale,
+            mask = mask,
+            focus = focus,
         )
         self.ln_post = nn.LayerNorm(width, device=device, dtype=dtype)
         self.input_proj = nn.Linear(input_channels, width, device=device, dtype=dtype)
