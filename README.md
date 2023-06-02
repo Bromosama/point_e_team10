@@ -45,6 +45,7 @@ To get started with examples, see the following notebooks:
  * [2D_Attention_Analysis.ipynb](demos/2D_Attention_Analysis.ipynb) - try the 2D attention map tools for training-free layout guidance with a Stable Diffusion backbone
  * [3D_Attention_Analysis.ipynb](demos/3D_Attention_Analysis.ipynb) - try the 3D attention map tools for evaluation attention in point cloud diffusion with point-E
  * [3D_Attention_CLIP.ipynb](demos/3D_Attention_CLIP.ipynb) - try the 3D attention map tools for evaluation the cross-attention associated with the CLIP image embeddings in point cloud diffusion with point-E
+ * [3D_Attention_Edit.ipynb](demos/3D_Attention_Edit.ipynb) - try the 3D attention map tools for manipulating the attention in point cloud diffusion with point-E
 
  
 # Samples
