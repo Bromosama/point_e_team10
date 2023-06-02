@@ -14,6 +14,7 @@ def plot_point_cloud(
         (-0.75, -0.75, -0.75),
         (0.75, 0.75, 0.75),
     ),
+    angle: float = 0.5
 ):
     """
     Render a point cloud as a plot to the given image path.
@@ -23,11 +24,12 @@ def plot_point_cloud(
     :param color: if True, show the RGB colors from the point cloud.
     :param grid_size: the number of random rotations to render.
     """
-    fig = plt.figure(figsize=(8, 8))
+    fig = plt.figure()
 
     for i in range(grid_size):
         for j in range(grid_size):
             ax = fig.add_subplot(grid_size, grid_size, 1 + j + i * grid_size, projection="3d")
+            ax.set_axis_off()
             color_args = {}
             if color:
                 color_args["c"] = np.stack(
@@ -35,18 +37,19 @@ def plot_point_cloud(
                 )
             c = pc.coords
 
-            if grid_size > 1:
-                theta = np.pi * 2 * (i * grid_size + j) / (grid_size**2)
-                rotation = np.array(
-                    [
-                        [np.cos(theta), -np.sin(theta), 0.0],
-                        [np.sin(theta), np.cos(theta), 0.0],
-                        [0.0, 0.0, 1.0],
-                    ]
-                )
-                c = c @ rotation
+            
+            theta = angle * 2 * np.pi 
+            rotation = np.array(
+                [
+                    [np.cos(theta), -np.sin(theta), 0.0],
+                    [np.sin(theta), np.cos(theta), 0.0],
+                    [0.0, 0.0, 1.0],
+                ]
+            )
+            c = c @ rotation
 
             ax.scatter(c[:, 0], c[:, 1], c[:, 2], **color_args)
+            ax.set_facecolor("lightgrey")
 
             if fixed_bounds is None:
                 min_point = c.min(0)

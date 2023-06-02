@@ -83,8 +83,8 @@ class QKVMultiheadAttention(nn.Module):
         wdtype = weight.dtype
 
         # set the mask or focus here, options: None, uniform, pc_to_pc, pc_to_pc_diag, img_to_pc, pc_to_img, img_to_img
-        mask = "None" 
-        focus = "None" 
+        mask = "None"
+        focus = "None"
 
         if mask == "uniform":
             weight[:, :, :, :].fill_(0)  
@@ -103,16 +103,20 @@ class QKVMultiheadAttention(nn.Module):
         if focus == "uniform":
             weight[:, :, :, :].fill_(0)  
         elif focus == "pc_to_pc":
-            weight[:, :, 257:, 257:] *= 2
+            weight[:, :, 257:, 257:] *= 1.25
         elif focus == "pc_to_pc_diag":
             for i in range(257, 1281):
-                weight[:, :, i, i] *= 2
+                weight[:, :, i, i] *= 1.25
         elif focus == "img_to_pc":
-            weight[:, :, :257, 257:] *= 2 
+            weight[:, :, :257, 257:] *= 1.25 
         elif focus == "pc_to_img":
-            weight[:, :, 257:, :257] *= 2  
+            weight[:, :, 257:, :257] *= 2 
         elif focus == "img_to_img":
-            weight[:, :, :257, :257] *= 2  
+            weight[:, :, :257, :257] *= 1.25 
+        elif focus == "cross_attention":
+            weight[:, :, :257, 257:] *= 2 
+            weight[:, :, 257:, :257] *= 2 
+
 
         weight = torch.softmax(weight.float(), dim=-1).type(wdtype)
 
