@@ -25,6 +25,6 @@ git+https://github.com/openai/CLIP.git
 hydra-core==1.2.0
 
 nopdb
-Flask==1.0.4
+Flask==2.2.5
 open3d==0.17.0
 scikit-learn
