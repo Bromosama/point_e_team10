@@ -16,7 +16,7 @@ torch==1.13.1
 torchvision==0.14.1
 omegaconf==2.2.3
 opencv-python
-imageio==2.9.0
+imageio
 transformers==4.24.0
 diffusers==0.7.2
 accelerate==0.13.2
